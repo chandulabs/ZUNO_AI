@@ -1,0 +1,11 @@
+services:
+  db:
+    image: postgres:16
+    environment: {POSTGRES_USER: pg, POSTGRES_PASSWORD: pg, POSTGRES_DB: phishguard}
+  backend:
+    build: ./backend
+    env_file: .env
+    environment: {DATABASE_URL: "postgresql://pg:pg@db/phishguard", MODEL_DIR: /ml_models}
+    volumes: ["./ml_models:/ml_models"]
+    ports: ["8000:8000"]
+    depends_on: [db]

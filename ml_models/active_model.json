@@ -1,0 +1,21 @@
+{
+  "active_model": "random_forest",
+  "selected_at": "2026-11-20 16:43:46Z",
+  "selection_metric": "Validation F1 + ROC-AUC Mean",
+  "validation_scores": {
+    "random_forest": {
+      "f1": 1.0,
+      "roc_auc": 1.0,
+      "score": 1.0
+    },
+    "xgboost": {
+      "f1": 1.0,
+      "roc_auc": 1.0,
+      "score": 1.0
+    }
+  },
+  "available_models": [
+    "random_forest",
+    "xgboost"
+  ]
+}

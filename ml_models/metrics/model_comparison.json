@@ -1,0 +1,117 @@
+{
+  "generated_at": "2026-11-20 16:43:46Z",
+  "active_model": "random_forest",
+  "models": {
+    "random_forest": {
+      "model_name": "Random Forest",
+      "evaluation_timestamp": "2026-11-20T16:43:42.766990+00:00",
+      "threshold": 0.5,
+      "test_samples": 19,
+      "benign_samples": 8,
+      "phishing_samples": 11,
+      "accuracy": 0.9474,
+      "precision": 1.0,
+      "recall": 0.9091,
+      "f1_score": 0.9524,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.0909,
+      "confusion_matrix": {
+        "true_negatives": 8,
+        "false_positives": 0,
+        "false_negatives": 1,
+        "true_positives": 10,
+        "matrix": [
+          [
+            8,
+            0
+          ],
+          [
+            1,
+            10
+          ]
+        ]
+      },
+      "latency_ms": 10.86
+    },
+    "xgboost": {
+      "model_name": "Xgboost",
+      "evaluation_timestamp": "2026-11-20T16:43:46.241025+00:00",
+      "threshold": 0.5,
+      "test_samples": 19,
+      "benign_samples": 8,
+      "phishing_samples": 11,
+      "accuracy": 0.8947,
+      "precision": 1.0,
+      "recall": 0.8182,
+      "f1_score": 0.9,
+      "roc_auc": 1.0,
+      "pr_auc": 1.0,
+      "false_positive_rate": 0.0,
+      "false_negative_rate": 0.1818,
+      "confusion_matrix": {
+        "true_negatives": 8,
+        "false_positives": 0,
+        "false_negatives": 2,
+        "true_positives": 9,
+        "matrix": [
+          [
+            8,
+            0
+          ],
+          [
+            2,
+            9
+          ]
+        ]
+      },
+      "latency_ms": 2.07
+    }
+  },
+  "comparison_summary": {
+    "winner_validation": "random_forest",
+    "validation_scores": {
+      "random_forest": {
+        "f1": 1.0,
+        "roc_auc": 1.0,
+        "score": 1.0
+      },
+      "xgboost": {
+        "f1": 1.0,
+        "roc_auc": 1.0,
+        "score": 1.0
+      }
+    },
+    "metrics_comparison": {
+      "accuracy": {
+        "random_forest": 0.9474,
+        "xgboost": 0.8947
+      },
+      "precision": {
+        "random_forest": 1.0,
+        "xgboost": 1.0
+      },
+      "recall": {
+        "random_forest": 0.9091,
+        "xgboost": 0.8182
+      },
+      "f1_score": {
+        "random_forest": 0.9524,
+        "xgboost": 0.9
+      },
+      "roc_auc": {
+        "random_forest": 1.0,
+        "xgboost": 1.0
+      },
+      "pr_auc": {
+        "random_forest": 1.0,
+        "xgboost": 1.0
+      },
+      "latency_ms": {
+        "random_forest": 10.86,
+        "xgboost": 2.07
+      }
+    }
+  }
+}
