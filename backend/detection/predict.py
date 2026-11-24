@@ -21,7 +21,8 @@ _BACKEND = Path(__file__).resolve().parents[1]
 
 
 def model_dir() -> Path:
-    p = Path(os.getenv("MODEL_DIR") or (_BACKEND.parent / "ml_models"))
+    default_dir = _BACKEND / "ml_models" if os.getenv("VERCEL") else _BACKEND.parent / "ml_models"
+    p = Path(os.getenv("MODEL_DIR") or default_dir)
     return p if p.is_absolute() else (_BACKEND / p).resolve()
 
 

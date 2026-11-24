@@ -1,0 +1,190 @@
+{
+  "registry_version": "1.0",
+  "last_updated": "2026-11-20T16:43:46.481928+00:00",
+  "models": {
+    "random_forest": {
+      "name": "random_forest",
+      "version": "2.0.0",
+      "file_name": "random_forest.joblib",
+      "file_path": "..\\ml_models\\random_forest.joblib",
+      "sha256": "513da8c1dd720a8e1def333c4a290d726f8486fdea6365e93eff103e60e9cf76",
+      "framework": "scikit-learn",
+      "training_timestamp": "2026-11-20T16:43:43.142063+00:00",
+      "dataset_version": "v1.0",
+      "feature_schema_version": "2.0",
+      "metrics": {
+        "model_name": "Random Forest",
+        "evaluation_timestamp": "2026-11-20T16:43:42.766990+00:00",
+        "threshold": 0.5,
+        "test_samples": 19,
+        "benign_samples": 8,
+        "phishing_samples": 11,
+        "accuracy": 0.9474,
+        "precision": 1.0,
+        "recall": 0.9091,
+        "f1_score": 0.9524,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0909,
+        "confusion_matrix": {
+          "true_negatives": 8,
+          "false_positives": 0,
+          "false_negatives": 1,
+          "true_positives": 10,
+          "matrix": [
+            [
+              8,
+              0
+            ],
+            [
+              1,
+              10
+            ]
+          ]
+        },
+        "latency_ms": 10.86
+      },
+      "approved": true,
+      "available": true
+    },
+    "cnn": {
+      "name": "cnn",
+      "version": "2.0.0",
+      "file_name": "cnn_model.pt",
+      "file_path": "C:\\Users\\adils\\OneDrive\\Desktop\\proj\\ml_models\\cnn_model.pt",
+      "sha256": "8ee15c677b79ce1951e57ddaf1b1f49b683b0249211cb658178d00397bcd45cf",
+      "framework": "pytorch",
+      "training_timestamp": "2026-11-14T15:38:22.757257+00:00",
+      "dataset_version": "v1.0",
+      "feature_schema_version": "2.0",
+      "metrics": {
+        "model_name": "Character-CNN",
+        "evaluation_timestamp": "2026-11-14T15:38:22.723455+00:00",
+        "threshold": 0.5,
+        "test_samples": 19,
+        "benign_samples": 8,
+        "phishing_samples": 11,
+        "accuracy": 0.8421,
+        "precision": 0.7857,
+        "recall": 1.0,
+        "f1_score": 0.88,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "false_positive_rate": 0.375,
+        "false_negative_rate": 0.0,
+        "confusion_matrix": {
+          "true_negatives": 5,
+          "false_positives": 3,
+          "false_negatives": 0,
+          "true_positives": 11,
+          "matrix": [
+            [
+              5,
+              3
+            ],
+            [
+              0,
+              11
+            ]
+          ]
+        },
+        "latency_ms": 0.46
+      },
+      "approved": true,
+      "available": true
+    },
+    "bilstm": {
+      "name": "bilstm",
+      "version": "2.0.0",
+      "file_name": "bilstm_model.pt",
+      "file_path": "C:\\Users\\adils\\OneDrive\\Desktop\\proj\\ml_models\\bilstm_model.pt",
+      "sha256": "d837f19d2d0e74daa8fad8661d8de54ecb7288893ef92ac6fa660c2009afa34d",
+      "framework": "pytorch",
+      "training_timestamp": "2026-11-14T15:38:46.898986+00:00",
+      "dataset_version": "v1.0",
+      "feature_schema_version": "2.0",
+      "metrics": {
+        "model_name": "Character-BiLSTM",
+        "evaluation_timestamp": "2026-11-14T15:38:46.874136+00:00",
+        "threshold": 0.5,
+        "test_samples": 19,
+        "benign_samples": 8,
+        "phishing_samples": 11,
+        "accuracy": 0.4737,
+        "precision": 1.0,
+        "recall": 0.0909,
+        "f1_score": 0.1667,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.9091,
+        "confusion_matrix": {
+          "true_negatives": 8,
+          "false_positives": 0,
+          "false_negatives": 10,
+          "true_positives": 1,
+          "matrix": [
+            [
+              8,
+              0
+            ],
+            [
+              10,
+              1
+            ]
+          ]
+        },
+        "latency_ms": 0.9
+      },
+      "approved": true,
+      "available": true
+    },
+    "xgboost": {
+      "name": "xgboost",
+      "version": "2.0.0",
+      "file_name": "xgboost.joblib",
+      "file_path": "..\\ml_models\\xgboost.joblib",
+      "sha256": "284e7446281d24436556a004044d6a28f939cc12747a3c130439cbd1222525d2",
+      "framework": "xgboost",
+      "training_timestamp": "2026-11-20T16:43:46.430028+00:00",
+      "dataset_version": "v1.0",
+      "feature_schema_version": "2.0",
+      "metrics": {
+        "model_name": "Xgboost",
+        "evaluation_timestamp": "2026-11-20T16:43:46.241025+00:00",
+        "threshold": 0.5,
+        "test_samples": 19,
+        "benign_samples": 8,
+        "phishing_samples": 11,
+        "accuracy": 0.8947,
+        "precision": 1.0,
+        "recall": 0.8182,
+        "f1_score": 0.9,
+        "roc_auc": 1.0,
+        "pr_auc": 1.0,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.1818,
+        "confusion_matrix": {
+          "true_negatives": 8,
+          "false_positives": 0,
+          "false_negatives": 2,
+          "true_positives": 9,
+          "matrix": [
+            [
+              8,
+              0
+            ],
+            [
+              2,
+              9
+            ]
+          ]
+        },
+        "latency_ms": 2.07
+      },
+      "approved": true,
+      "available": true
+    }
+  }
+}

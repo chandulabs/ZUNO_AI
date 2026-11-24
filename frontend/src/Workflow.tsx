@@ -11,8 +11,8 @@ const N: [string, string, string, string, number, number, string][] = [
   ['input', 'URL / APK Input', 'input', 'The submitted URL or uploaded Android package enters the pipeline.', 0, 0, 'input'],
   ['validation', 'Input Validation', 'valid', 'URL format / scheme / length checks, or APK extension, size, ZIP + AndroidManifest checks. Submitted targets are never visited or executed.', 0, 72, 'validation'],
   ['router', 'Analysis Router', 'valid', 'Routes the input to URL feature extraction or APK static analysis.', 0, 144, 'router'],
-  ['url', 'URL Feature Extraction', 'url', 'Lexical features (length, dots, hyphens, entropy, IP host, keywords, TLD, subdomains…) and rule-based indicators.', -125, 236, 'analysis'],
-  ['apk', 'APK Static Analysis', 'apk', 'Androguard static parsing: manifest, permissions, embedded URLs/domains, certificates. Never executed.', 125, 236, 'analysis'],
+  ['url', 'URL Feature Extraction', 'url', 'Lexical features (length, dots, hyphens, entropy, IP host, keywords, TLD, subdomains…) and rule-based indicators.', -150, 236, 'analysis'],
+  ['apk', 'APK Static Analysis', 'apk', 'Androguard static parsing: manifest, permissions, embedded URLs/domains, certificates. Never executed.', 150, 236, 'analysis'],
   ['ti', 'Threat Intelligence Lookup', 'ti', 'Local SQLite threat intelligence database & OpenPhish community feed matching. 100% on-premise without external APIs.', 0, 328, 'ti'],
   ['ml', 'Hybrid Machine Learning & DL', 'ml', 'Random Forest, XGBoost & Neural Character-CNN/BiLSTM local inference with hybrid fusion.', 0, 400, 'ml'],
   ['shap', 'SHAP & Neural Explainability', 'xai', 'SHAP TreeExplainer for Random Forest and character-level saliency for neural networks.', 0, 472, 'shap'],
@@ -74,36 +74,50 @@ function Inner({ live, result }: { live: any; result: any }) {
       : result?.timeline && result.kind === flowType ? 'last' : 'idle'
   const kind = flowType
 
-  // stage -> status
-  const stageSt = useMemo<Record<string, St>>(() => {
+  const demoStages = useMemo<Record<string, St>>(() => {
     const m: Record<string, St> = {}
     ORDER.forEach(s => (m[s] = 'pending'))
     if (mode === 'demo') ORDER.forEach((s, i) => (m[s] = i < demo ? 'done' : i === demo ? 'active' : 'pending'))
-    else if (mode === 'live') ORDER.forEach(s => (m[s] = (live.stages[s] as St) || 'pending'))
-    else if (mode === 'last') (result.timeline || []).forEach((t: any) => (m[t.stage] = t.status as St))
     return m
-  }, [mode, demo, live, result])
+  }, [mode, demo])
 
   const verdict: string | null = mode === 'live' ? (live.done ? live.verdict : null) : mode === 'last' ? result.verdict : null
   const ms: Record<string, number> = {}
   if (mode === 'last') (result.timeline || []).forEach((t: any) => (ms[t.stage] = t.ms))
 
+  const actualStages: Record<string, St> = mode === 'live'
+    ? (live.stages || {})
+    : mode === 'last'
+      ? Object.fromEntries((result.timeline || []).map((t: any) => [t.stage, t.status]))
+      : {}
+
+  const combinedStatus = (keys: string[]): St => {
+    const statuses = keys.map(key => actualStages[key]).filter((status): status is St => !!status && status !== 'pending')
+    if (statuses.includes('error')) return 'error'
+    if (statuses.includes('active')) return 'active'
+    if (!statuses.length) return 'pending'
+    if (statuses.every(status => status === 'done' || status === 'skipped')) {
+      return statuses.includes('done') ? 'done' : 'skipped'
+    }
+    return statuses.includes('done') ? 'active' : 'pending'
+  }
+
   const nodeStatus = (n: (typeof N)[number]): St | 'inactive' => {
     if (n[0] === 'url' && kind === 'apk' && mode !== 'demo') return 'inactive'
     if (n[0] === 'apk' && kind !== 'apk' && mode !== 'demo') return 'inactive'
-    if (mode === 'demo' && n[0] === 'apk') return stageSt.analysis   // demo lights both branches
-    const key = n[6]
-    return stageSt[key] ||
-      (key === 'analysis' ? (stageSt['features'] || stageSt['rules']) : undefined) ||
-      (key === 'router' ? (stageSt['normalization'] || stageSt['validation']) : undefined) ||
-      (key === 'ti' ? stageSt['threat_intel'] : undefined) ||
-      (key === 'ml' ? (stageSt['ensemble'] || stageSt['active_model'] || stageSt['random_forest']) : undefined) ||
-      'pending'
+    if (mode === 'demo') return demoStages[n[6]] || 'pending'
+    if (mode !== 'live' && mode !== 'last') return 'pending'
+
+    const stages: Record<string, string[]> = {
+      router: ['normalization'],
+      analysis: ['features', 'rules'],
+      ti: ['threat_intel'],
+      ml: ['random_forest', 'xgboost', 'active_model', 'ensemble', 'cnn', 'bilstm'],
+    }
+    return combinedStatus(stages[n[6]] || [n[6]])
   }
 
-  const hiddenBranch = flowType === 'url' ? 'apk' : 'url'
-  const visibleNodes = N.filter(n => n[0] !== hiddenBranch)
-  const nodes = visibleNodes.map(n => {
+  const nodes = N.map(n => {
     const s = nodeStatus(n), c = col[n[2]]
     const active = s === 'active', done = s === 'done'
     const bg = s === 'inactive' ? '#0b1020' : active ? c + 'cc' : done ? c + '55' : s === 'error' ? '#ef444466' : s === 'skipped' ? '#1e293b' : c + '1f'
@@ -111,11 +125,11 @@ function Inner({ live, result }: { live: any; result: any }) {
       : n[0] === 'verdict' && verdict ? `Final Verdict: ${verdict}` : n[1]
     const icon = done ? <Check size={13} /> : s === 'error' ? <X size={13} /> : s === 'skipped' ? <Minus size={13} /> : null
     return {
-      id: n[0], position: { x: -130, y: n[5] },
+      id: n[0], position: { x: n[4] - 110, y: n[5] },
       className: active ? 'wf-active' : '',
       data: { label: <div className="wfn">{icon}<span>{label}</span>{ms[n[6]] != null && s !== 'skipped' && <small>{ms[n[6]]} ms</small>}{s === 'skipped' && <small>not run</small>}</div> },
       style: {
-        background: bg, color: '#fff', borderRadius: 12, padding: 8, width: 260, fontSize: 13,
+        background: bg, color: '#fff', borderRadius: 12, padding: 8, width: 220, fontSize: 13,
         border: `2px ${s === 'skipped' || s === 'inactive' ? 'dashed' : 'solid'} ${s === 'error' ? '#ef4444' : s === 'inactive' ? '#334155' : c}`,
         opacity: s === 'inactive' ? 0.45 : 1,
         boxShadow: active ? `0 0 26px ${c}` : n[0] === 'verdict' && verdict ? `0 0 22px ${VERDICT_COLOR[verdict]}88` : 'none',
@@ -123,8 +137,7 @@ function Inner({ live, result }: { live: any; result: any }) {
       },
     }
   })
-  const visibleIds = new Set(visibleNodes.map(n => n[0]))
-  const edges = E_.filter(([s, t]) => visibleIds.has(s) && visibleIds.has(t)).map(([s, t]) => {
+  const edges = E_.map(([s, t]) => {
     const tn = N.find(x => x[0] === t)!, sn = N.find(x => x[0] === s)!
     const ts = nodeStatus(tn), ss = nodeStatus(sn)
     const dead = ts === 'inactive' || ss === 'inactive'

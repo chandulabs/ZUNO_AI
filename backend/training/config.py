@@ -1,14 +1,17 @@
 """Training and Evaluation Configuration."""
 import os
+import tempfile
 from pathlib import Path
 
 BACKEND_DIR = Path(__file__).resolve().parents[1]
 ROOT_DIR = BACKEND_DIR.parent
-DATASETS_DIR = ROOT_DIR / "datasets"
+ON_VERCEL = os.getenv("VERCEL") == "1"
+DATASETS_DIR = Path(tempfile.gettempdir()) / "datasets" if ON_VERCEL else ROOT_DIR / "datasets"
 RAW_DATA_DIR = DATASETS_DIR / "raw"
 PROCESSED_DATA_DIR = DATASETS_DIR / "processed"
 REPORTS_DATA_DIR = DATASETS_DIR / "reports"
-MODEL_DIR = Path(os.getenv("MODEL_DIR") or (ROOT_DIR / "ml_models"))
+DEFAULT_MODEL_DIR = BACKEND_DIR / "ml_models" if ON_VERCEL else ROOT_DIR / "ml_models"
+MODEL_DIR = Path(os.getenv("MODEL_DIR") or DEFAULT_MODEL_DIR)
 METRICS_DIR = MODEL_DIR / "metrics"
 
 for d in [RAW_DATA_DIR, PROCESSED_DATA_DIR, REPORTS_DATA_DIR, MODEL_DIR, METRICS_DIR]:

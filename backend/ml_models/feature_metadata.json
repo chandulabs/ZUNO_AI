@@ -1,0 +1,117 @@
+{
+  "feature_names": [
+    "url_len",
+    "domain_len",
+    "dots",
+    "hyphens",
+    "subdomains",
+    "has_ip",
+    "https",
+    "keywords",
+    "entropy",
+    "bad_tld",
+    "special_chars",
+    "digit_ratio",
+    "at_sym",
+    "is_shortened",
+    "punycode",
+    "homograph_indicator",
+    "suspicious_hostname",
+    "path_len",
+    "query_len",
+    "url_encoding",
+    "redirect_params",
+    "path_depth"
+  ],
+  "feature_info": {
+    "url_len": {
+      "label": "URL length",
+      "desc": "Very long URLs are frequently used to hide deceptive destinations or tracking payloads."
+    },
+    "domain_len": {
+      "label": "Domain length",
+      "desc": "Abnormally long hostnames often conceal brand impersonations or generated names."
+    },
+    "dots": {
+      "label": "Number of dots",
+      "desc": "Many dots typically indicate nested subdomains or obfuscated path structures."
+    },
+    "hyphens": {
+      "label": "Number of hyphens",
+      "desc": "Hyphens are commonly used to craft deceptive brand names (e.g. secure-login-bank)."
+    },
+    "subdomains": {
+      "label": "Subdomain count",
+      "desc": "Deep subdomain nesting is used to mislead users into seeing a legitimate brand name."
+    },
+    "has_ip": {
+      "label": "IP address host",
+      "desc": "Legitimate web services use domain names; direct IP hosts are high-risk indicators."
+    },
+    "https": {
+      "label": "HTTPS usage",
+      "desc": "Plain HTTP lacks encryption (though modern phishing frequently adopts free TLS)."
+    },
+    "keywords": {
+      "label": "Suspicious keywords",
+      "desc": "Words like 'login', 'verify', 'account', and 'secure' serve as psychological lures."
+    },
+    "entropy": {
+      "label": "Character entropy",
+      "desc": "High Shannon entropy indicates random strings, hex tokens, or obfuscation."
+    },
+    "bad_tld": {
+      "label": "High-abuse TLD",
+      "desc": "TLDs known for high rates of registration abuse (.xyz, .top, .tk, .click)."
+    },
+    "special_chars": {
+      "label": "Special character count",
+      "desc": "Frequency of characters like _, =, ?, &, %, and @ used in obfuscation or tracking."
+    },
+    "digit_ratio": {
+      "label": "Digit ratio",
+      "desc": "Proportion of numeric digits across the entire URL length."
+    },
+    "at_sym": {
+      "label": "'@' symbol detection",
+      "desc": "The '@' character can disguise the true host by placing a deceptive prefix."
+    },
+    "is_shortened": {
+      "label": "URL shortening service",
+      "desc": "Shorteners (bit.ly, tinyurl) mask the actual destination host."
+    },
+    "punycode": {
+      "label": "Punycode indicator",
+      "desc": "Internationalized domain names ('xn--') used in homograph attacks to mimic letters."
+    },
+    "homograph_indicator": {
+      "label": "Homograph indicator",
+      "desc": "Hostname contains Punycode or character mixtures typical of domain spoofing."
+    },
+    "suspicious_hostname": {
+      "label": "Suspicious hostname pattern",
+      "desc": "Patterns such as consecutive hyphens, hex tokens, or multi-brand labels in host."
+    },
+    "path_len": {
+      "label": "Path length",
+      "desc": "Extended path segments frequently mask redirection scripts or credential harvesters."
+    },
+    "query_len": {
+      "label": "Query string length",
+      "desc": "Large query strings often contain victim tokens, encoded parameters, or redirects."
+    },
+    "url_encoding": {
+      "label": "URL percent-encoding",
+      "desc": "Frequent percent-encoding (%xx) can be used to bypass simplistic string matching filters."
+    },
+    "redirect_params": {
+      "label": "Redirect parameter",
+      "desc": "Parameters like 'url=' or 'redirect=' commonly signal open redirect exploitation."
+    },
+    "path_depth": {
+      "label": "Path subdirectory depth",
+      "desc": "Deep hierarchical directory paths common in staged credential harvesters."
+    }
+  },
+  "num_features": 22
+}
